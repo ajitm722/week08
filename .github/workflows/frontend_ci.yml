@@ -13,6 +13,11 @@ on:
     paths: # Only trigger if changes are in the frontend directory
       - "frontend/**"
       - ".github/workflows/frontend_ci.yml" # Trigger if this workflow file changes
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend_ci.yml"
 
 # Define global environment variables that can be used across jobs
 env:
@@ -25,7 +30,9 @@ env:
 
 jobs:
   build_and_push_frontend:
+    name: Frontend CI / Build and Push Image
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
 
     steps:
       - name: Checkout repository
